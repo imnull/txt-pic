@@ -1,28 +1,30 @@
-.video-row, .video-ops {
+.impress-row, .impress-ops {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
 }
 
-.video-ops-text {
+.impress-ops-text {
     font-size: 16px;
     margin-left: 5px;
 }
 
-.video-origin {
+.impress-origin {
     margin: 5px;
+    display: block;
 }
 
-.video-line {
+.impress-line {
     margin: 0;
     line-height: 0.7em;
     font-family: monospace;
     font-size: 12px;
     color: #000;
+    letter-spacing: 1px;
 }
 
-.video-lines-container {
+.impress-lines-container {
     margin: 5px;
     transform-origin: 0 0;
 }

@@ -1,0 +1,39 @@
+.router-link {
+    font-size: 16px;
+    color: #ccc;
+    font-weight: normal;
+    text-decoration: none;
+    margin: 5px;
+}
+
+.router-link:hover {
+    text-decoration: underline;
+}
+
+.active-router-link {
+    color: #fff;
+    font-weight: bold;
+}
+
+.top-menu {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    background-color: #06c;
+    height: 40px;
+    right: 0;
+    left: 0;
+    top: 0;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 10px;
+}
+.content-body {
+    position: absolute;
+    left: 0;
+    top: 40;
+    bottom: 0;
+    right: 0;
+    box-sizing: border-box;
+    padding: 10px;
+}

@@ -6,4 +6,5 @@ export type TMosacData = {
     points: TMosacPoint[],
     offsetX: number, offsetY: number,
     columns: number,
+    rows: number,
 }

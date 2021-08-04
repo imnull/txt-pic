@@ -5,21 +5,22 @@ export const getMosaicData = (image: ImageData, size: number, offsetX: number = 
         size = 1
     }
     const { data, width, height } = image
-    const columns = Math.ceil(width / size)
+    const rows = height / size >> 0
+    const columns = width / size >> 0
     const points: TMosacPoint[] = []
     const s2 = size * .5 >> 0
     let y = 0
-    while(y < height) {
+    while(y < rows) {
         let x = 0
-        while(x < width) {
-            const idx = ((y + s2 + offsetY) * width + x + offsetX + s2) * 4
+        while(x < columns) {
+            const idx = ((y * size + s2 + offsetY) * width + x * size + offsetX + s2) * 4
             const color = Array.from(data.slice(idx, idx + 4)) as TColor
-            points.push([x, y, color])
-            x += size
+            points.push([x * size, y * size, color])
+            x += 1
         }
-        y += size
+        y += 1
     }
-    return { points, width, height, size, offsetX, offsetY, columns }
+    return { points, width, height, size, offsetX, offsetY, columns, rows }
 }
 
 export const drawMosaicDataToContext = (ctx: CanvasRenderingContext2D, data: TMosacData, debug: boolean = false) => {

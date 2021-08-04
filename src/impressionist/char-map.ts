@@ -46,25 +46,32 @@ export const getCharMap = (chars: string, fontFamily = 'System', size = 240) => 
     return rateMap.sort((b, a) => a.value - b.value)
 }
 
+const CACHE: {
+    FULL_CHAR_MAP?: { letter: string, value: number } []
+} = {}
+
 export const getFullCharMap = (fontFamily = 'monospace', size = 240) => {
-    const canvas = document.createElement('canvas')
-    canvas.width = size
-    canvas.height = size
-    const ctx = canvas.getContext('2d')
-    const rateMap: { letter: string, value: number }[] = []
-    for (let i = 32; i < 128; i++) {
-        const letter = String.fromCharCode(i)
-        const { data } = drawLetterData(ctx, letter, size, fontFamily)
-        const rate = getRate(data)
-        const val = Math.round(rate * 256)
-        const item = rateMap.find(({ value }) => value === val)
-        if (!item) {
-            rateMap.push({ letter, value: val })
+    if(!CACHE.FULL_CHAR_MAP) {
+        const canvas = document.createElement('canvas')
+        canvas.width = size
+        canvas.height = size
+        const ctx = canvas.getContext('2d')
+        const rateMap: { letter: string, value: number }[] = []
+        for (let i = 32; i < 128; i++) {
+            const letter = String.fromCharCode(i)
+            const { data } = drawLetterData(ctx, letter, size, fontFamily)
+            const rate = getRate(data)
+            const val = Math.round(rate * 256)
+            const item = rateMap.find(({ value }) => value === val)
+            if (!item) {
+                rateMap.push({ letter, value: val })
+            }
         }
+        CACHE.FULL_CHAR_MAP = rateMap
+            // .filter(({ value }) => value > 0)
+            .sort((b, a) => a.value - b.value)
     }
-    return rateMap
-        .filter(({ value }) => value > 0)
-        .sort((b, a) => a.value - b.value)
+    return CACHE.FULL_CHAR_MAP
 }
 /*
 

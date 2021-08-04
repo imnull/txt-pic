@@ -1,0 +1,19 @@
+.mosaic-row, .mosaic-ops {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.mosaic-ops-text {
+    font-size: 16px;
+    margin-left: 5px;
+}
+
+.mosaic-origin {
+    margin: 5px;
+}
+.mosaic-canvas {
+    margin: 5px;
+}
