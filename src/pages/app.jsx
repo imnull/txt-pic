@@ -12,7 +12,7 @@ export default class App extends React.Component {
     render() {
         return (
             <div className="root">
-                <Video />
+                <Video charMap={charMap} degree={4} />
                 <Impressionist charMap={charMap} imageSrc={`./images/logo.jpg`} degree={8} />
             </div>
         )
