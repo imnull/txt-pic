@@ -1,8 +1,8 @@
 const getRate = (data: Uint8ClampedArray) => {
     let c = 0
-    for(let i = 0; i < data.length; i += 4) {
+    for (let i = 0; i < data.length; i += 4) {
         const val = data[i + 3]
-        if(val > 0) {
+        if (val > 0) {
             c += 1
         }
     }
@@ -38,10 +38,34 @@ export const getCharMap = (chars: string, fontFamily = 'System', size = 240) => 
         const rate = getRate(data)
         const val = Math.round(rate * 256)
         const item = rateMap.find(({ value }) => value === val)
-        if(!item) {
+        if (!item) {
             rateMap.push({ letter, value: val })
         }
     })
-    
+
     return rateMap.sort((b, a) => a.value - b.value)
 }
+
+export const getFullCharMap = (fontFamily = 'monospace', size = 240) => {
+    const canvas = document.createElement('canvas')
+    canvas.width = size
+    canvas.height = size
+    const ctx = canvas.getContext('2d')
+    const rateMap: { letter: string, value: number }[] = []
+    for (let i = 32; i < 128; i++) {
+        const letter = String.fromCharCode(i)
+        const { data } = drawLetterData(ctx, letter, size, fontFamily)
+        const rate = getRate(data)
+        const val = Math.round(rate * 256)
+        const item = rateMap.find(({ value }) => value === val)
+        if (!item) {
+            rateMap.push({ letter, value: val })
+        }
+    }
+    return rateMap
+        .filter(({ value }) => value > 0)
+        .sort((b, a) => a.value - b.value)
+}
+/*
+
+*/

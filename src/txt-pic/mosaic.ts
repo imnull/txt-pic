@@ -1,6 +1,9 @@
 import { TColor, TMosacData, TMosacPoint } from "./types"
 
 export const getMosaicData = (image: ImageData, size: number, offsetX: number = 0, offsetY: number = 0): TMosacData => {
+    if(size < 1) {
+        size = 1
+    }
     const { data, width, height } = image
     const columns = Math.ceil(width / size)
     const points: TMosacPoint[] = []
