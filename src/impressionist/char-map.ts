@@ -1,3 +1,8 @@
+/**
+ * 获取数据灰阶
+ * @param data 
+ * @returns 
+ */
 const getRate = (data: Uint8ClampedArray) => {
     let c = 0
     for (let i = 0; i < data.length; i += 4) {
@@ -46,10 +51,17 @@ export const getCharMap = (chars: string, fontFamily = 'System', size = 240) => 
     return rateMap.sort((b, a) => a.value - b.value)
 }
 
+/** 缓存 */
 const CACHE: {
     FULL_CHAR_MAP?: { letter: string, value: number } []
 } = {}
 
+/**
+ * 灰阶字符表
+ * @param fontFamily 字体
+ * @param size 字号
+ * @returns 
+ */
 export const getFullCharMap = (fontFamily = 'monospace', size = 240) => {
     if(!CACHE.FULL_CHAR_MAP) {
         const canvas = document.createElement('canvas')
@@ -73,6 +85,3 @@ export const getFullCharMap = (fontFamily = 'monospace', size = 240) => {
     }
     return CACHE.FULL_CHAR_MAP
 }
-/*
-
-*/

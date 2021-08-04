@@ -1,5 +1,8 @@
 import React, { createRef, useEffect, useState } from 'react'
-import { drawMosaicToCanvas, drawMosaicDataToContext, getMosaicData, getImageData } from '../../impressionist'
+import {
+    getImageData,
+    createMosaicFilter,
+} from '../../impressionist'
 
 import './index.css'
 
@@ -7,19 +10,20 @@ export default (props) => {
 
     const canvas = createRef()
     const [size, setSize] = useState(8)
-    const [imageData, setImageData] = useState(null)
+    const [offset, setOffset] = useState(0.5)
+    const [img, setImg] = useState(null)
 
     const handleImageLoad = (e) => {
         const { target: image } = e
-        const imageData = getImageData(image)
-        setImageData(imageData)
+        setImg(image)
     }
 
     const drawMosaic = (imageData, canvas) => {
-        const mosaicData = getMosaicData(imageData, size)
-        canvas.width = mosaicData.width
-        canvas.height = mosaicData.height
-        drawMosaicToCanvas(canvas, mosaicData)
+        imageData = createMosaicFilter(size, offset)(imageData)
+        canvas.width = imageData.width
+        canvas.height = imageData.height
+        const ctx = canvas.getContext('2d')
+        ctx.putImageData(imageData, 0, 0)
     }
 
     const handleSize = (e) => {
@@ -27,20 +31,29 @@ export default (props) => {
         setSize(Number(value))
     }
 
+    const handleOffset = (e) => {
+        const { target: { value } } = e
+        setOffset(Number(value))
+    }
+
     useEffect(() => {
-        if(!imageData || !canvas.current) {
+        if(!img || !canvas.current) {
             return
         }
-        drawMosaic(imageData, canvas.current)
-    }, [imageData, size])
-
+        const data = getImageData(img)
+        drawMosaic(data, canvas.current)
+    }, [img, size, offset])
     
 
     return (
         <div className="mosaic-container">
             <div className="mosaic-ops">
-                <input type="range" min={8} max={32} value={size} onChange={handleSize} />
+                <input type="range" min={4} max={32} value={size} onChange={handleSize} />
                 <span className="mosaic-ops-text">SIZE={size}</span>
+            </div>
+            <div className="mosaic-ops">
+                <input type="range" min={0} max={1} value={offset} step={0.1} onChange={handleOffset} />
+                <span className="mosaic-ops-text">OFFSET={offset}</span>
             </div>
             <div className="mosaic-row">
                 <img className="mosaic-origin" src={`./images/logo.jpg`} onLoad={handleImageLoad} />

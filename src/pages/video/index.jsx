@@ -29,8 +29,11 @@ export default (props) => {
         cvs.height = target.videoHeight
         const ctx = cvs.getContext('2d')
         if(!eng) {
+            // 创建动画帧
             const frame = frameDraw(ctx, video.current, setImageData)
+            // 创建动画引擎
             eng = animationFactory(frame)
+            // 启动动画引擎，开始对桥接canvas更新绘制
             eng.start()
         }
     }
